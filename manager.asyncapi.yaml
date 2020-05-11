@@ -1,0 +1,235 @@
+# vim: set et ts=2 sw=2:
+
+id: urn:rpc:metricq:manager
+asyncapi: '2.0.0'
+
+info:
+  title: MetricQ Managment Protocol
+  version: '0.1.0'
+
+servers:
+  production:
+    url: "metricq.zih.tu-dresden.de"
+    protocol: ampq
+
+defaultContentType: application/json
+
+channels:
+  management:
+    bindings:
+      amqp:
+        is: queue
+        durable: true
+    publish:
+      message:
+        oneOf:
+          - name: "get_metrics"
+            title: "get_metrics"
+            summary: "Return information about available metrics"
+            payload:
+              $ref: "#/components/schemas/get_metrics"
+          - name: "get_configs"
+            title: "get_configs"
+            summary: "Retrieve configuration objects for matching clients"
+            payload:
+              $ref: "#/components/schemas/get_configs"
+          - name: "sink.register"
+            title: "sink.register"
+            summary: "Register a sink with the manager"
+            payload:
+              $ref: "#/components/schemas/sink.register"
+          - name: "sink.subscribe"
+            title: "sink.subscribe"
+            description: "Subscribe to receive data points for a set of metrics"
+            payload:
+              $ref: "#/components/schemas/sink.subscribe"
+
+    subscribe:
+      message:
+        oneOf:
+          - name: "config"
+            summary: "Send a configuration object to a client"
+            payload:
+              $ref: "#/components/schemas/config"
+  broadcast:
+    subscribe:
+      message:
+        oneOf:
+          - name: "discover"
+            payload:
+              $ref: "#/components/schemas/discover"
+
+
+components:
+  schemas:
+    "responses":
+      type: object
+      properties:
+        "sink.register":
+          type: object
+          properties:
+            dataServerAddress:
+              type: string
+              format: url
+              config:
+                $ref: "#/components/schemas/config"
+
+    "discover":
+      properties:
+        function:
+          const: "discover"
+
+    "config":
+      properties:
+        function:
+          const: "config"
+      additionalProperties: true
+
+    "get_metrics":
+      $ref: "#/components/schemas/rpcFunction"
+      properties:
+        function:
+          const: "get_metrics"
+        format:
+          description: "Whether to return an array of metric names or an object mapping metric names to their metadata"
+          type: string
+          enum: ["array", "object"]
+          default: "array"
+        historic:
+          description: >-
+            If given, limit returned metrics to either historic (`true`) or non-historic (`false`) metrics.
+            If omitted, no filter is applied.
+          type: boolean
+        limit:
+          description: >-
+            Number of matched metrics to include in response.
+            If omitted, all matching metrics are returned.
+          type: integer
+          minimum: 0
+      oneOf:
+        - properties:
+            selector:
+              $ref: "#/components/schemas/metricSelector"
+        - properties:
+            prefix:
+              type: string
+      examples:
+        - function: "get_metrics"
+          selector: "taurus\\.taurusi\\d{4}\\.cpu\\d\\+.power"
+          limit: 20
+        - function: "get_metrics"
+          prefix: "taurus"
+          historic: true
+
+    "get_configs":
+      properties:
+        function:
+          const: "get_configs"
+          selector:
+            description: "A selector matching clients by their token"
+            oneOf:
+              - type: array
+                description: "A list of client tokens"
+                items:
+                  type: string
+              - type: string
+                format: regex
+                description: "A regular expression matching a set of client tokens"
+
+    "sink.register":
+      properties:
+        function:
+          const: "sink.register"
+          examples:
+            - function: "sink.register"
+
+    "sink.subscribe":
+      properties:
+        function:
+          const: "sink.subscribe"
+        metrics:
+          $ref: "#/components/schemas/metricList"
+        dataQueue:
+          $ref: "#/components/schemas/dataQueue"
+        expires:
+          $ref: "#/components/schemas/seconds"
+        metadata:
+          description: >-
+            Whether to include metadata for each metric in the reponse.
+
+
+            If set to `false`, the result is an array of metric names,
+            if set to `true`, an object mapping metric names to metadata objects is returned.
+
+          type: boolean
+          default: false
+      required:
+        - "metrics"
+      examples:
+        - function: "sink.subscribe"
+          metrics: ["building-F.room-A14.temperature.celcius"]
+          metadata: true
+
+    "sink.unsubscribe":
+      title: "sink.unsubscribe"
+      description: "Stop receiving data points for a set of metrics"
+      properties:
+        dataQueue:
+          $ref: "#/components/schemas/dataQueue"
+        metrics:
+          $ref: "#/components/schemas/metricList"
+        end:
+          type: boolean
+      required:
+        - "dataQueue"
+        - "metrics"
+
+    rpcFunction:
+      type: object
+      properties:
+        function:
+          $ref: "#/components/schemas/rpcFunctionName"
+      required:
+        - "function"
+
+    rpcFunctionName:
+      type: string
+      title: "RPC function name"
+      description: "A string identifying the requested RPC function"
+      pattern: "([a-z_]+\\.)+[a-z_]+"
+
+    metricName:
+      type: string
+      pattern: "([a-zA-Z][a-zA-Z0-9_]+\\.)+[a-zA-Z][a-zA-Z0-9_]+"
+      examples:
+        - "elab.bhaka.power"
+        - "elab.ariel.package0.dram.current"
+        - "taurus.taurusi4101.cpu0.power"
+
+    metricList:
+      type: array
+      description: "A list of metric names"
+      items:
+        $ref: "#/components/schemas/metricName"
+      uniqueItems: true
+
+    metricSelector:
+      description: "A selector matching a set of metrics, either by regex or explicit listing"
+      oneOf:
+        - type: string
+          format: regex
+          description: "A regular expression matching a set of metric names"
+          examples:
+            - "taurus\\.taurusi\\d{4}\\.cpu\\d\\+.power"
+        - $ref: "#/components/schemas/metricList"
+
+    dataQueue:
+      type: string
+      format: "uri"
+      examples:
+        - "amqp://user:pass@localhost/vhost"
+        - "amqps://metricq.example.com:50505/"
+
+    seconds:
+      type: integer
+      minimum: 0
