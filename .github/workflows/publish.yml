@@ -1,0 +1,36 @@
+name: Validate, build and publish docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+    env:
+      API_SPEC_PATH: manager.asyncapi.yaml
+      OUTPUT_PATH: generated-html
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Validating API specification
+        uses: WaleedAshraf/asyncapi-github-action@v0.0.3
+        with:
+          filepath: ${{ env.API_SPEC_PATH }}
+
+      - name: Generating HTML from API specification
+        uses: asyncapi/github-action-for-generator@v0.2.0
+        with:
+          template: '@asyncapi/html-template@0.3.0'
+          filepath: ${{ env.API_SPEC_PATH }}
+          output: ${{ env.OUTPUT_PATH }}
+
+      - name: Deploy generated HTML to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.5.2
+        with:
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: ${{ env.OUTPUT_PATH }}
