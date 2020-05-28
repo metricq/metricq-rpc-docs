@@ -48,7 +48,7 @@ channels:
         name: "get_configs"
         title: "A mapping of client names to their configuration"
         payload:
-          $ref: "#/components/schemas/get_metrics-response"
+          $ref: "#/components/schemas/get_configs-response"
 
   management/sink.register:
     publish:
