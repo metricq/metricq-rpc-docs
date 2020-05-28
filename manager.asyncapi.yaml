@@ -15,50 +15,145 @@ servers:
 defaultContentType: application/json
 
 channels:
-  management:
-    bindings:
-      amqp:
-        is: queue
-        durable: true
+  management/get_metrics:
     publish:
       message:
-        oneOf:
-          - name: "get_metrics"
-            title: "get_metrics"
-            summary: "Return information about available metrics"
-            payload:
-              $ref: "#/components/schemas/get_metrics"
-          - name: "get_configs"
-            title: "get_configs"
-            summary: "Retrieve configuration objects for matching clients"
-            payload:
-              $ref: "#/components/schemas/get_configs"
-          - name: "sink.register"
-            title: "sink.register"
-            summary: "Register a sink with the manager"
-            payload:
-              $ref: "#/components/schemas/sink.register"
-          - name: "sink.subscribe"
-            title: "sink.subscribe"
-            description: "Subscribe to receive data points for a set of metrics"
-            payload:
-              $ref: "#/components/schemas/sink.subscribe"
+        name: "get_metrics"
+        title: "get_metrics"
+        summary: "Request information about available metrics"
+        bindings:
+          amqp:
+            replyTo:
+              type: string
+        correlationId:
+          location: $message.header#/correlation_id
+        payload:
+          $ref: "#/components/schemas/get_metrics"
+    subscribe:
+      message:
+        name: "get_metrics"
+        title: "A list of matching metrics, with optional metadata"
+        payload:
+          $ref: "#/components/schemas/get_metrics-response"
+
+  management/get_configs:
+    publish:
+      message:
+        name: "get_configs"
+        title: "Retrieve configuration objects for matching clients"
+        payload:
+          $ref: "#/components/schemas/get_configs"
+    subscribe:
+      message:
+        name: "get_configs"
+        title: "A mapping of client names to their configuration"
+        payload:
+          $ref: "#/components/schemas/get_metrics-response"
+
+  management/sink.register:
+    publish:
+      operationId: "sink.register"
+      message:
+        name: "sink.register"
+        title: "Register a sink with the manager"
+        payload:
+          properties:
+            function:
+              const: "sink.register"
+              examples:
+                - function: "sink.register"
+    subscribe:
+      operationId: "sink.register"
+      message:
+        name: "sink.register"
+        title: "Registration response"
+        payload:
+          properties:
+            type: object
+            properties:
+              dataServerAddress:
+                $ref: "#/components/schemas/dataServerAddress"
+              config:
+                $ref: "#/components/schemas/configObject"
+
+
+  management/sink.subscribe:
+    publish:
+      message:
+        name: "sink.subscribe"
+        title: "sink.subscribe"
+        description: "Subscribe to receive data points for a set of metrics"
+        payload:
+          $ref: "#/components/schemas/sink.subscribe"
 
     subscribe:
       message:
-        oneOf:
-          - name: "config"
-            summary: "Send a configuration object to a client"
-            payload:
-              $ref: "#/components/schemas/config"
-  broadcast:
+        title: "sink.subscribe"
+        description: >-
+          `sink.subscribe` response
+        payload:
+          type: object
+          properties:
+            dataServerAddress:
+                $ref: "#/components/schemas/dataServerAddress"
+            dataQueue:
+                $ref: "#/components/schemas/dataQueue"
+            metrics:
+                $ref: "#/components/schemas/metricCollection"
+
+  management/sink.unsubscribe:
+    publish:
+      message:
+        name: "sink.unsubscribe"
+        title: "sink.unsubscribe"
+        description: "Subscribe to receive data points for a set of metrics"
+        payload:
+          $ref: "#/components/schemas/sink.unsubscribe"
+
     subscribe:
       message:
-        oneOf:
-          - name: "discover"
-            payload:
-              $ref: "#/components/schemas/discover"
+        title: >-
+          `sink.unsubscribe` response
+        payload:
+          type: object
+          properties:
+            dataServerAddress:
+                $ref: "#/components/schemas/dataServerAddress"
+            metrics:
+                description: "The collection of metrics this client is no longer subscribed to"
+                $ref: "#/components/schemas/metricCollection"
 
+  management/sink.release:
+    publish:
+      message:
+        name: "sink.release"
+        title: "sink.release"
+        description: "Release a data queue"
+        payload:
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "sink.release"
+            dataQueue:
+              $ref: "#/components/schemas/dataQueue"
+    subscribe:
+      message:
+        payload:
+          type: object
+
+  broadcast/discover:
+    subscribe:
+      message:
+        name: "discover"
+        summary: "A discovery request sent to all clients online"
+        payload:
+          $ref: "#/components/schemas/discover"
+    publish:
+      message:
+        name: "discover"
+        summary: "A discovery response including operational information of a client"
+        payload:
+          $ref: "#/components/schemas/discover-response"
 
 components:
   schemas:
@@ -71,13 +166,34 @@ components:
             dataServerAddress:
               type: string
               format: url
-              config:
-                $ref: "#/components/schemas/config"
+            config:
+              $ref: "#/components/schemas/config"
 
     "discover":
       properties:
         function:
           const: "discover"
+
+    "discover-response":
+      properties:
+        alive:
+          type: boolean
+          default: true
+        currentTime:
+          type: string
+          format: date-time
+          description: "Current time on this host"
+        startingTime:
+          type: string
+          format: date-time
+          description: "When this client was started and first connected to the network"
+        uptime:
+          type: integer
+          format: nanoseconds
+          description: >-
+            Number of nanoseconds since startup of this client.
+
+            If missing, assume this is the difference between `currentTime` and `startingTime`.
 
     "config":
       properties:
@@ -113,6 +229,7 @@ components:
         - properties:
             prefix:
               type: string
+              description: "A prefix matching the start of a metric namek"
       examples:
         - function: "get_metrics"
           selector: "taurus\\.taurusi\\d{4}\\.cpu\\d\\+.power"
@@ -121,20 +238,34 @@ components:
           prefix: "taurus"
           historic: true
 
+    "get_metrics-response":
+      type: object
+      properties:
+        metrics:
+            $ref: "#/components/schemas/metricCollection"
+
     "get_configs":
       properties:
         function:
           const: "get_configs"
-          selector:
-            description: "A selector matching clients by their token"
-            oneOf:
-              - type: array
-                description: "A list of client tokens"
-                items:
-                  type: string
-              - type: string
-                format: regex
-                description: "A regular expression matching a set of client tokens"
+        selector:
+          description: "A selector matching clients by their token"
+          oneOf:
+            - type: array
+              description: "A list of client tokens"
+              items:
+                type: string
+            - type: string
+              format: regex
+              description: "A regular expression matching a set of client tokens"
+
+    "get_configs-response":
+      type: object
+      additionalProperties:
+        $ref: "#/components/schemas/configObject"
+      examples:
+        - "source-py-dummy":
+            rate: 0.5
 
     "sink.register":
       properties:
@@ -180,6 +311,9 @@ components:
           $ref: "#/components/schemas/metricList"
         end:
           type: boolean
+          description: >-
+            If `true`, the manager sends a `type="end"` message after unbinding the routing keys to indicate that no more message will arrive at this queue.
+          default: true
       required:
         - "dataQueue"
         - "metrics"
@@ -202,7 +336,7 @@ components:
       type: string
       pattern: "([a-zA-Z][a-zA-Z0-9_]+\\.)+[a-zA-Z][a-zA-Z0-9_]+"
       examples:
-        - "elab.bhaka.power"
+        - "elab.bahka.power"
         - "elab.ariel.package0.dram.current"
         - "taurus.taurusi4101.cpu0.power"
 
@@ -212,6 +346,23 @@ components:
       items:
         $ref: "#/components/schemas/metricName"
       uniqueItems: true
+
+    metricsWithMetadata:
+      type: object
+      description: "A mapping of metric names to metadata objects"
+      additionalProperties:
+        $ref: "#/components/schemas/metadata"
+      examples:
+        - elab.bahka.power:
+            rate: 20
+            scope: "last"
+            unit: "W"
+
+    metricCollection:
+      description: "A collection of metric names, with optional metadata attached"
+      oneOf:
+        - $ref: "#/components/schemas/metricList"
+        - $ref: "#/components/schemas/metricsWithMetadata"
 
     metricSelector:
       description: "A selector matching a set of metrics, either by regex or explicit listing"
@@ -232,4 +383,34 @@ components:
 
     seconds:
       type: integer
+      format: seconds
       minimum: 0
+
+    metadata:
+      description: "A metadata object"
+      type: object
+      properties:
+        unit:
+          type: string
+        rate:
+          type: integer
+        scope:
+          enum: ["last", "next", "point"]
+        quantity:
+          type: string
+        description:
+          type: string
+      examples:
+        - rate: 0.1
+
+    configObject:
+      description: "A client configuration object"
+      type: object
+
+    dataServerAddress:
+      type: string
+      format: url
+      description: "URL pointing to the AMQP broker where data queues are handled"
+      examples:
+        - "amqp://user:pass@localhost/data-vhost"
+        - "amqps://metricq.example.com:50505/"
