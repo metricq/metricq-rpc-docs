@@ -157,18 +157,6 @@ channels:
 
 components:
   schemas:
-    "responses":
-      type: object
-      properties:
-        "sink.register":
-          type: object
-          properties:
-            dataServerAddress:
-              type: string
-              format: url
-            config:
-              $ref: "#/components/schemas/config"
-
     "discover":
       properties:
         function:
