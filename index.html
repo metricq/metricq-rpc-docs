@@ -267,6 +267,25 @@
         </a>
       </li>
       
+      <li>
+        
+        
+        <a class="js-menu-item flex break-words no-underline text-grey-darkest mt-8 sm:mt-8 md:mt-3"
+          href="#operation-subscribe-broadcast/config">
+          <span class="bg-green-dark font-bold no-underline text-white uppercase p-1 mr-2 rounded"
+            style="height: 21px;font-size: 11px;" title="Subscribe">Sub</span>
+          
+          <div style="display:inline-block;">
+            
+<span class="string-chunk" style="padding-top: 2px;">broadcast</span><span class="string-chunk" style="padding-top: 2px;">/config</span>
+
+          </div>
+          
+        </a>
+        
+        </a>
+      </li>
+      
     </ul>
     
     
@@ -1115,7 +1134,7 @@ string
         </div>
 
         
-          <div class="text-sm markdown"><p>A prefix matching the start of a metric namek</p>
+          <div class="text-sm markdown"><p>A prefix matching the start of a metric name</p>
 </div>
         
         
@@ -2609,274 +2628,12 @@ object
         
         
         
-      </div>
-    </div>
-
-    
-      <div class="children bg-grey-lightest py-4 rounded">
-        
-          
-            
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class="js-prop cursor-pointer py-2 flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">metrics</span>
-        
-        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
-          xmlns="http://www.w3.org/2000/svg" y="0">
-          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
-        </svg>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-
-          
-          oneOf
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-          <div class="text-sm markdown"><p>A collection of metric names, with optional metadata attached</p>
-</div>
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-      <div class="children bg-grey-lighter py-4 rounded">
-        
-
-        
-        
-
-        
-
-        
-
-        
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class="js-prop cursor-pointer py-2 flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">0</span>
-        
-        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
-          xmlns="http://www.w3.org/2000/svg" y="0">
-          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
-        </svg>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-array&lt;string&gt;
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-              <span class="bg-red-dark font-bold no-underline text-white rounded lowercase ml-2"
-                style="height: 20px;font-size: 11px;padding: 3px;" title="Array items must be unique">Unique</span>
-            
-          </div>
-        </div>
-
-        
-          <div class="text-sm markdown"><p>A list of metric names</p>
-</div>
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-      <div class="children bg-grey-lightest py-4 rounded">
-        
-
-        
-        
-
-        
-          
-            <p class="pl-6 mb-2 text-xs font-bold uppercase text-grey-darker">Items:</p>
-            
-              
-
-<div class="bg-grey-lightest pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">0</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-string
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <span class="bg-purple-dark font-bold no-underline text-white rounded normal-case ml-2"
-                  style="height: 20px;font-size: 11px;padding: 3px;">must match ([a-zA-Z][a-zA-Z0-9_]+\.)+[a-zA-Z][a-zA-Z0-9_]+</span>
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-          <div class="text-xs">
-            Examples:
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"elab.bahka.power"</span>
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"elab.ariel.package0.dram.current"</span>
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"taurus.taurusi4101.cpu0.power"</span>
-            
-          </div>
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-            
-          
-
-          
-            <p class="pl-6 mb-2 mt-4 text-xs text-grey-darker">Additional items are allowed.</p>
-          
-        
-
-        
-
-        
-
-        
-
-        
-      </div>
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class="js-prop cursor-pointer py-2 flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">1</span>
-        
-        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
-          xmlns="http://www.w3.org/2000/svg" y="0">
-          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
-        </svg>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-object
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-          <div class="text-sm markdown"><p>A mapping of metric names to metadata objects</p>
-</div>
-        
-        
-        
-        
-        
           <div class="text-xs">
             Examples:
             
               <span class="border text-orange rounded ml-1 py-0 px-2">{
-  "elab.bahka.power": {
-    "rate": 20,
-    "scope": "last",
-    "unit": "W"
+  "source-py-dummy": {
+    "rate": 0.5
   }
 }</span>
             
@@ -2937,62 +2694,8 @@ object
         </div>
 
         
-          <div class="text-sm markdown"><p>A metadata object</p>
+          <div class="text-sm markdown"><p>A client configuration object</p>
 </div>
-        
-        
-        
-        
-        
-          <div class="text-xs">
-            Examples:
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">{
-  "rate": 0.1
-}</span>
-            
-          </div>
-        
-      </div>
-    </div>
-
-    
-      <div class="children bg-grey-lighter py-4 rounded">
-        
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">unit</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-string
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
         
         
         
@@ -3002,210 +2705,7 @@ string
     </div>
 
     
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">rate</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-integer
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">scope</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-          <div class="text-xs">
-            Enum:
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"last"</span>
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"next"</span>
-            
-              <span class="border text-orange rounded ml-1 py-0 px-2">"point"</span>
-            
-          </div>
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">quantity</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-string
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
-            
-
-<div class="bg-grey-lighter pl-8 pr-8 rounded">
-  <div class="">
-    <div class=" flex property">
-      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
-        <span class="text-sm " style="word-break: break-word;">description</span>
-        
-        
-      </div>
-
-      <div>
-        <div class="capitalize text-sm text-teal font-bold">
-          
-string
-          
-          
-          
-          <div class="inline-block">
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </div>
-        </div>
-
-        
-        
-        
-        
-        
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-
-          
+      <div class="children bg-grey-lighter py-4 rounded">
         
 
         
@@ -3231,43 +2731,6 @@ string
 
 
             </div>
-          
-        
-
-        
-
-        
-
-        
-      </div>
-    
-  </div>
-</div>
-
-
-          
-        
-
-        
-
-        
-      </div>
-    
-  </div>
-</div>
-
-
-          
-        
-
-        
-        
-
-        
-
-        
-          
-            <p class="pl-6 mb-2 mt-4 text-xs text-grey-darker">Additional properties are allowed.</p>
           
         
 
@@ -3315,12 +2778,14 @@ string
 
   <div class="payload-examples mt-4">
     
-    <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
-  "metrics": [
-    "elab.bahka.power"
-  ]
+      
+        <h6 class="text-xs font-bold text-grey-darker">Example #1</h6>
+        <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
+  "source-py-dummy": {
+    "rate": 0.5
+  }
 }</code></pre>
-    <h6 class="text-xs font-bold text-grey-darker italic">This example has been generated automatically.</h6>
+      
     
   </div>
 
@@ -7442,8 +6907,8 @@ If missing, assume this is the difference between <code>currentTime</code> and <
     
     <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
   "alive": true,
-  "currentTime": "2020-05-28T12:05:39Z",
-  "startingTime": "2020-05-28T12:05:39Z",
+  "currentTime": "2020-05-28T12:33:38Z",
+  "startingTime": "2020-05-28T12:33:38Z",
   "uptime": 0
 }</code></pre>
     <h6 class="text-xs font-bold text-grey-darker italic">This example has been generated automatically.</h6>
@@ -7505,6 +6970,233 @@ If missing, assume this is the difference between <code>currentTime</code> and <
     
   </div>
   <p class="text-grey-dark text-sm">A discovery request sent to all clients online</p>
+  <div class="mt-4 mb-4 markdown"></div>
+  
+<div>
+  
+
+<div class="bg-grey-lighter  rounded">
+  <div class="is-open">
+    <div class="js-prop cursor-pointer py-2 flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">Payload</span>
+        
+        <svg class="expand" version="1.1" viewBox="0 0 24 24" x="0"
+          xmlns="http://www.w3.org/2000/svg" y="0">
+          <polygon points="17.3 8.3 12 13.6 6.7 8.3 5.3 9.7 12 16.4 18.7 9.7 "></polygon>
+        </svg>
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+object
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+        
+        
+      </div>
+    </div>
+
+    
+      <div class="children bg-grey-lightest py-4 rounded">
+        
+          
+            
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm " style="word-break: break-word;">function</span>
+        
+        
+          <div class="text-red-dark text-xs">required</div>
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+        
+        
+          <div class="text-xs">Const: &quot;discover&quot;</div>
+        
+        
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+          
+        
+
+        
+        
+
+        
+
+        
+          
+            <p class="pl-6 mb-2 mt-4 text-xs text-grey-darker">Additional properties are allowed.</p>
+          
+        
+
+        
+
+        
+
+        
+      </div>
+    
+  </div>
+</div>
+
+
+</div>
+
+  
+</div>
+
+
+    
+
+    
+<div class="mt-4">
+  
+</div>
+
+
+  </div>
+</div>
+
+<div class="right-block p-8">
+  <h4 class="text-lg text-white mb-4">Examples</h4>
+
+  
+  
+
+<form>
+  <input type="radio" checked id="example-payload-broadcast/discover-discover" name="tab" class="examples-payload-tab hidden" />
+  <label for="example-payload-broadcast/discover-discover" class="py-1 px-2 mr-2 mb-4 text-grey-lightest text-sm border rounded focus:outline-none cursor-pointer text-grey-lightest" >Payload</label>
+
+  <input type="radio" id="example-headers-broadcast/discover-discover" name="tab" class="examples-headers-tab hidden" disabled />
+  <label for="example-headers-broadcast/discover-discover"
+      class="py-1 px-2 mr-2 mb-4 text-sm border rounded focus:outline-none cursor-pointer text-grey-dark border-grey-dark opacity-25" title="This message does not have headers">Headers</label>
+
+  <div class="payload-examples mt-4">
+    
+    <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
+  "function": "discover"
+}</code></pre>
+    <h6 class="text-xs font-bold text-grey-darker italic">This example has been generated automatically.</h6>
+    
+  </div>
+
+  <div class="headers-examples mt-4">
+    
+  </div>
+</form>
+
+
+  
+</div>
+
+
+
+    
+  </div>
+
+  <div class="responsive-container">
+    
+  </div>
+  <div class="responsive-container">
+    
+      
+
+<a name="operation-subscribe-broadcast/config"></a>
+<div class="center-block p-8">
+  <div class="operation pt-8 pb-8">
+    <h3 class="font-mono text-base">
+      
+      
+      <span class="font-mono border border-green-dark text-green-dark uppercase p-1 rounded"
+        title="Subscribe">Sub</span>
+      
+      
+<span class="string-chunk" >broadcast</span><span class="string-chunk" >/config</span>
+
+    </h3>
+
+    <div class="mt-4 mb-4 markdown"></div>
+
+    <p class="text-grey text-sm"></p>
+    <div class="mt-4 mb-4 markdown"></div>
+
+
+
+    
+
+
+    
+    <p>Accepts the following message:</p>
+    
+
+<div class="bg-grey-lighter rounded p-4 mt-2">
+  <div class="text-sm text-grey-darker mb-2">
+    
+    
+      
+        <span class="border text-orange rounded text-s py-0 px-2">config</span>
+      
+    
+  </div>
+  <p class="text-grey-dark text-sm">Provide an updated configuration object to a client</p>
   <div class="mt-4 mb-4 markdown"></div>
   
 <div>
@@ -7594,7 +7286,7 @@ If missing, assume this is the difference between <code>currentTime</code> and <
         
         
         
-          <div class="text-xs">Const: &quot;discover&quot;</div>
+          <div class="text-xs">Const: &quot;config&quot;</div>
         
         
         
@@ -7651,17 +7343,17 @@ If missing, assume this is the difference between <code>currentTime</code> and <
   
 
 <form>
-  <input type="radio" checked id="example-payload-broadcast/discover-discover" name="tab" class="examples-payload-tab hidden" />
-  <label for="example-payload-broadcast/discover-discover" class="py-1 px-2 mr-2 mb-4 text-grey-lightest text-sm border rounded focus:outline-none cursor-pointer text-grey-lightest" >Payload</label>
+  <input type="radio" checked id="example-payload-broadcast/config-config" name="tab" class="examples-payload-tab hidden" />
+  <label for="example-payload-broadcast/config-config" class="py-1 px-2 mr-2 mb-4 text-grey-lightest text-sm border rounded focus:outline-none cursor-pointer text-grey-lightest" >Payload</label>
 
-  <input type="radio" id="example-headers-broadcast/discover-discover" name="tab" class="examples-headers-tab hidden" disabled />
-  <label for="example-headers-broadcast/discover-discover"
+  <input type="radio" id="example-headers-broadcast/config-config" name="tab" class="examples-headers-tab hidden" disabled />
+  <label for="example-headers-broadcast/config-config"
       class="py-1 px-2 mr-2 mb-4 text-sm border rounded focus:outline-none cursor-pointer text-grey-dark border-grey-dark opacity-25" title="This message does not have headers">Headers</label>
 
   <div class="payload-examples mt-4">
     
     <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
-  "function": "discover"
+  "function": "config"
 }</code></pre>
     <h6 class="text-xs font-bold text-grey-darker italic">This example has been generated automatically.</h6>
     
