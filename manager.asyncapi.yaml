@@ -32,6 +32,7 @@ channels:
           properties:
             function:
               const: "get_metrics"
+              $ref: "#/components/schemas/rpcFunctionName"
             format:
               description: "Whether to return an array of metric names or an object mapping metric names to their metadata"
               type: string
@@ -79,9 +80,11 @@ channels:
         name: "get_configs"
         title: "Retrieve configuration objects for matching clients"
         payload:
+          $ref: "#/components/schemas/rpcFunction"
           properties:
             function:
               const: "get_configs"
+              $ref: "#/components/schemas/rpcFunctionName"
             selector:
               description: "A selector matching clients by their token"
               oneOf:
@@ -111,9 +114,11 @@ channels:
         name: "sink.register"
         title: "Register a sink with the manager"
         payload:
+          $ref: "#/components/schemas/rpcFunction"
           properties:
             function:
               const: "sink.register"
+              $ref: "#/components/schemas/rpcFunctionName"
               examples:
                 - function: "sink.register"
     subscribe:
@@ -138,9 +143,11 @@ channels:
         title: "sink.subscribe"
         description: "Subscribe to receive data points for a set of metrics"
         payload:
+          $ref: "#/components/schemas/rpcFunction"
           properties:
             function:
               const: "sink.subscribe"
+              $ref: "#/components/schemas/rpcFunctionName"
             metrics:
               $ref: "#/components/schemas/metricList"
             dataQueue:
@@ -224,6 +231,7 @@ channels:
           properties:
             function:
               const: "sink.release"
+              $ref: "#/components/schemas/rpcFunctionName"
             dataQueue:
               $ref: "#/components/schemas/dataQueue"
     subscribe:
@@ -241,6 +249,7 @@ channels:
           properties:
             function:
               const: "discover"
+              $ref: "#/components/schemas/rpcFunctionName"
     publish:
       message:
         name: "discover"
@@ -273,9 +282,11 @@ channels:
         summary: >-
           Provide an updated configuration object to a client
         payload:
+          $ref: "#/components/schemas/rpcFunction"
           properties:
             function:
               const: "config"
+              $ref: "#/components/schemas/rpcFunctionName"
           additionalProperties: true
 
 
