@@ -228,6 +228,119 @@ channels:
           type: object
           description: "Acknowledgement of successful release"
 
+  management/source.register:
+    publish:
+      message:
+        name: "source.register"
+        summary: "Register a source on the network"
+        payload:
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "source.register"
+              $ref: "#/components/schemas/rpcFunctionName"
+    subscribe:
+      message:
+        payload:
+          type: object
+          properties:
+            dataServerAddress:
+              $ref: "#/components/schemas/dataServerAddress"
+            dataExchange:
+              $ref: "#/components/schemas/dataExchange"
+            config:
+              $ref: "#/components/schemas/configObject"
+
+  management/source.declare_metrics:
+    publish:
+      message:
+        name: "source.declare_metrics"
+        summary: "Declare a list of metrics which this source provides"
+        payload:
+          type: object
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "source.declare_metrics"
+              $ref: "#/components/schemas/rpcFunctionName"
+            metrics:
+              $ref: "#/components/schemas/metricCollection"
+          required:
+            - "metrics"
+    subscribe:
+      message:
+        payload:
+          $ref: "#/components/schemas/declareMetricsResponse"
+
+  management/transformer.register:
+    publish:
+      message:
+        name: "transformer.register"
+        summary: "Register a transformer on the network"
+        payload:
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "transformer.register"
+              $ref: "#/components/schemas/rpcFunctionName"
+    subscribe:
+      message:
+        payload:
+          type: object
+          properties:
+            dataExchange:
+              $ref: "#/components/schemas/dataExchange"
+            config:
+              $ref: "#/components/schemas/configObject"
+
+  management/transformer.declare_metrics:
+    publish:
+      message:
+        name: "transformer.declare_metrics"
+        summary: "Declare a list of metrics which this transformer provides"
+        payload:
+          type: object
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "transformer.declare_metrics"
+              $ref: "#/components/schemas/rpcFunctionName"
+            metrics:
+              $ref: "#/components/schemas/metricCollection"
+          required:
+            - "metrics"
+    subscribe:
+      message:
+        payload:
+          $ref: "#/components/schemas/declareMetricsResponse"
+
+  management/transformer.subscribe:
+    publish:
+      message:
+        name: "transformer.subscribe"
+        title: "transformer.subscribe"
+        description: "Subscribe to receive data points for a set of metrics"
+        payload:
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "transformer.subscribe"
+              $ref: "#/components/schemas/rpcFunctionName"
+            metrics:
+              $ref: "#/components/schemas/metricList"
+            metadata:
+              $ref: "#/components/schemas/metadataArgument"
+          required:
+            - "function"
+            - "metrics"
+    subscribe:
+      message:
+        title: "transformer.subscribe"
+        description: >-
+          `transformer.subscribe` response
+        payload:
+          $ref: "#/components/schemas/subscribeResponse"
+
   broadcast/discover:
     subscribe:
       message:
@@ -418,6 +531,16 @@ components:
       examples:
         - "amqp://user:pass@localhost/data-vhost"
         - "amqps://metricq.example.com:50505/"
+
+    dataExchange:
+      type: string
+      description: "Name of the exchange to which data points should be published"
+      examples:
+        - "metricq.data"
+
+    declareMetricsResponse:
+      type: object
+      description: "Acknowledgement that metrics have been declared successfully"
 
     metadataArgument:
       type: boolean
