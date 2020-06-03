@@ -154,15 +154,7 @@ channels:
             expires:
               $ref: "#/components/schemas/seconds"
             metadata:
-              description: >-
-                Whether to include metadata for each metric in the reponse.
-
-
-                If set to `false`, the result is an array of metric names,
-                if set to `true`, an object mapping metric names to metadata objects is returned.
-
-              type: boolean
-              default: false
+              $ref: "#/components/schemas/metadataArgument"
           required:
             - "function"
             - "metrics"
@@ -176,14 +168,7 @@ channels:
         description: >-
           `sink.subscribe` response
         payload:
-          type: object
-          properties:
-            dataServerAddress:
-                $ref: "#/components/schemas/dataServerAddress"
-            dataQueue:
-                $ref: "#/components/schemas/dataQueue"
-            metrics:
-                $ref: "#/components/schemas/metricCollection"
+          $ref: "#/components/schemas/subscribeResponse"
 
   management/sink.unsubscribe:
     publish:
@@ -388,3 +373,25 @@ components:
       examples:
         - "amqp://user:pass@localhost/data-vhost"
         - "amqps://metricq.example.com:50505/"
+
+    metadataArgument:
+      type: boolean
+      default: false
+      description: >-
+        Whether to include metadata for each metric in the reponse.
+
+
+        If set to `false`, the result is an array of metric names,
+        if set to `true`, an object mapping metric names to metadata objects is returned.
+
+    subscribeResponse:
+      type: object
+      properties:
+        dataServerAddress:
+            $ref: "#/components/schemas/dataServerAddress"
+        dataQueue:
+            $ref: "#/components/schemas/dataQueue"
+            description: >-
+              The AMQP queue at which data points for the subscribed metrics will arrive.
+        metrics:
+            $ref: "#/components/schemas/metricCollection"
