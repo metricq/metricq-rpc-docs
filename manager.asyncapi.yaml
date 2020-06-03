@@ -182,6 +182,8 @@ channels:
           properties:
             dataQueue:
               $ref: "#/components/schemas/dataQueue"
+              description: >-
+                The AMQP queue at which data points should no longer be sent.
             metrics:
               $ref: "#/components/schemas/metricList"
             end:
@@ -219,10 +221,12 @@ channels:
               $ref: "#/components/schemas/rpcFunctionName"
             dataQueue:
               $ref: "#/components/schemas/dataQueue"
+              description: "The data queue to be released"
     subscribe:
       message:
         payload:
           type: object
+          description: "Acknowledgement of successful release"
 
   broadcast/discover:
     subscribe:
@@ -351,20 +355,61 @@ components:
       properties:
         unit:
           type: string
+          title: "Unit symbol"
+          description: >-
+            The unit symbol according to SI, such as `"V"` for voltage or `"s"` for time.
+
+
+            If necessary, the SI prefix is included, e.g. `"kV"`, `"ms"`, or `"kiB/s"`.
+            _Dimensionless_ quantities such as counts use either an empty string (`""`) or the appropriate symbol (e.g. "rad").
+          examples:
+            - "V"
+            - "kV"
+            - "s"
+            - "kiB/s"
+            - "rad"
+            - ""
         rate:
           type: integer
+          description: >-
+            The rate in `Sa/s` (samples per second) or `Hz` at which new values of this metric are typically produced.
+            In practice, a source does not necessarily need to produce values exactly at this rate, but the value given should be good estimate.
         scope:
           enum: ["last", "next", "point"]
+          description: >-
+            The temporal validity of a single measured value.
+
+
+            A scope of `"last"` indicates that a measured value was valid _up to now_, `"next"` that it is valid _from now on_.
+            A scope of `"point"` means that any measurement is only valid at exactly the moment it was taken.
         quantity:
           type: string
+          description: >-
+            The name of the measured quantity.
+
+
+            Ideally, this is the same as the last segment of the metric name.
+          examples:
+            - "power"
+            - "temperature"
         description:
           type: string
+          description: >-
+            A human-readable description of the measurement quantity
       examples:
         - rate: 0.1
 
     configObject:
       description: "A client configuration object"
       type: object
+      examples:
+        - reportNeighboursDogActivity: true
+          metricSourceChannels:
+            "kittens.front-flap.opened.count": "automation.doors.front.catflap.triggered#cumulative"
+            "kittens.water-bowl.1.volume": "automation.volume-sensors[5]"
+        - clientSpecificOption: 42
+          monitorKittenHealth: true
+
 
     dataServerAddress:
       type: string
