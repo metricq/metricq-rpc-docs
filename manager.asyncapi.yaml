@@ -119,21 +119,20 @@ channels:
             function:
               const: "sink.register"
               $ref: "#/components/schemas/rpcFunctionName"
-              examples:
-                - function: "sink.register"
+          examples:
+            - function: "sink.register"
     subscribe:
       operationId: "sink.register"
       message:
         name: "sink.register"
         title: "Registration response"
         payload:
+          type: object
           properties:
-            type: object
-            properties:
-              dataServerAddress:
-                $ref: "#/components/schemas/dataServerAddress"
-              config:
-                $ref: "#/components/schemas/configObject"
+            dataServerAddress:
+              $ref: "#/components/schemas/dataServerAddress"
+            config:
+              $ref: "#/components/schemas/configObject"
 
 
   management/sink.subscribe:
@@ -165,6 +164,7 @@ channels:
               type: boolean
               default: false
           required:
+            - "function"
             - "metrics"
           examples:
             - function: "sink.subscribe"
