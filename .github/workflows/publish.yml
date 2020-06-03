@@ -32,6 +32,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: ${{ env.OUTPUT_PATH }}
+          name: docs
 
       - name: Deploy generated HTML to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.5.2
