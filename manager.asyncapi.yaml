@@ -376,6 +376,23 @@ channels:
                 Number of nanoseconds since startup of this client.
 
                 If missing, assume this is the difference between `currentTime` and `startingTime`.
+            metricqVersion:
+              type: string
+              description: >-
+                The version of the MetricQ client library that this client uses to communicate with the network.
+
+                This value is intended for human consumption and its format should not be relied opon.
+                Nonetheless, a format of _<library-name>/<version>_ is encouraged.
+              examples:
+                - "metricq-python/1.1.4"
+                - "metricq-cpp/r501.ge944379"
+            hostname:
+              type: string
+              description: >-
+                The hostname identifying the machine that this client runs on.
+              examples:
+                - "bahka"
+                - "192.0.2.42"
 
   broadcast/config:
     subscribe:
