@@ -31,6 +31,35 @@ tags:
 info:
   title: MetricQ Management Protocol
   version: '0.1.0'
+  description: |
+    Clients on the MetricQ network are managed via an RPC protocol, where
+    messages are encoded in a JSON format.
+
+    A request consists of a JSON object with a property `"function"`, identifying
+    the action to perform.
+    Arguments are encoded as additional properties on the request object.
+
+    Replies are arbitrary JSON objects.
+    If a request could not be processed successfully, the reply has a single
+    property `"error"` containing an error message as a string.
+
+    See the examples for encoded request.
+
+    In the spec below, communication is presented from the perspective of a client making a request:
+    Requests are marked **`PUB`** (a client publishes a request to the management exchange),
+    replies are marked **`SUB`** (the client subscribes to replies on its RPC queue).
+
+    RPCs are grouped into three categories and are tagged as such:
+
+    * **`management`**:
+      Management RPCs are sent to an exchange called `metricq.management`, management
+      clients subscribe to messages on this queue.
+      Replies from management clients arrive on a dedicated *management queue*.
+    * **`broadcast`**:
+      Broadcast RPCs are sent to an exchange called `metric.broadcast`.
+      All clients will receive such an request simultaneously and are expected to reply.
+    * **`direct`**:
+      Some RPCs are sent directly into a client's RPC queue, bypassing any exchange.
 
 servers:
   production:
