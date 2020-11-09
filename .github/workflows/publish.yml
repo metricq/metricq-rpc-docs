@@ -27,6 +27,8 @@ jobs:
           template: '@asyncapi/html-template@0.3.0'
           filepath: ${{ env.API_SPEC_PATH }}
           output: ${{ env.OUTPUT_PATH }}
+          parameters: >-
+            sidebarOrganization=byTags
 
       - name: Upload generated HTML as build artifact
         uses: actions/upload-artifact@v2
