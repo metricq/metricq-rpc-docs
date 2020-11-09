@@ -3,6 +3,31 @@
 id: urn:rpc:metricq:manager
 asyncapi: '2.0.0'
 
+tags:
+  - name: "management"
+    description: >-
+      RPCs processed by management clients
+  - name: "direct"
+    description: >-
+      RPCs sent to a specific client directly
+  - name: "broadcast"
+    description: >-
+      RPCs sent to all clients on the network at once
+  - name: "source"
+    description: >-
+      RPCs used by Source instances
+  - name: "sink"
+    description: >-
+      RPCs used by Sink instances
+  - name: "transformer"
+    description: >-
+      RPCs used by Transformer instances
+  - name: "database"
+    description: >-
+      RPCs used by Database instances
+  - name: "request"
+  - name: "reply"
+
 info:
   title: MetricQ Management Protocol
   version: '0.1.0'
@@ -15,8 +40,11 @@ servers:
 defaultContentType: application/json
 
 channels:
-  management/get_metrics:
+  get_metrics:
     publish:
+      tags:
+        - name: "management"
+        - name: "request"
       message:
         name: "get_metrics"
         title: "get_metrics"
@@ -65,6 +93,9 @@ channels:
               prefix: "taurus"
               historic: true
     subscribe:
+      tags:
+        - name: "management"
+        - name: "reply"
       message:
         name: "get_metrics"
         title: "A list of matching metrics, with optional metadata"
@@ -74,8 +105,11 @@ channels:
             metrics:
                 $ref: "#/components/schemas/metricCollection"
 
-  management/get_configs:
+  get_configs:
     publish:
+      tags:
+        - name: "management"
+        - name: "request"
       message:
         name: "get_configs"
         title: "Retrieve configuration objects for matching clients"
@@ -96,6 +130,9 @@ channels:
                   format: regex
                   description: "A regular expression matching a set of client tokens"
     subscribe:
+      tags:
+        - name: "management"
+        - name: "reply"
       message:
         name: "get_configs"
         title: "A mapping of client names to their configuration"
@@ -107,8 +144,12 @@ channels:
             - "source-py-dummy":
                 rate: 0.5
 
-  management/sink.register:
+  sink.register:
     publish:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "request"
       operationId: "sink.register"
       message:
         name: "sink.register"
@@ -122,6 +163,10 @@ channels:
           examples:
             - function: "sink.register"
     subscribe:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "reply"
       operationId: "sink.register"
       message:
         name: "sink.register"
@@ -135,8 +180,12 @@ channels:
               $ref: "#/components/schemas/configObject"
 
 
-  management/sink.subscribe:
+  sink.subscribe:
     publish:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "request"
       message:
         name: "sink.subscribe"
         title: "sink.subscribe"
@@ -163,15 +212,21 @@ channels:
               metrics: ["building-F.room-A14.temperature.celcius"]
               metadata: true
     subscribe:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "reply"
       message:
         title: "sink.subscribe"
-        description: >-
-          `sink.subscribe` response
         payload:
           $ref: "#/components/schemas/subscribeResponse"
 
-  management/sink.unsubscribe:
+  sink.unsubscribe:
     publish:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "request"
       message:
         name: "sink.unsubscribe"
         title: "sink.unsubscribe"
@@ -195,6 +250,10 @@ channels:
             - "dataQueue"
             - "metrics"
     subscribe:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "reply"
       message:
         title: >-
           `sink.unsubscribe` response
@@ -207,8 +266,12 @@ channels:
                 description: "The collection of metrics this client is no longer subscribed to"
                 $ref: "#/components/schemas/metricCollection"
 
-  management/sink.release:
+  sink.release:
     publish:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "request"
       message:
         name: "sink.release"
         title: "sink.release"
@@ -223,13 +286,21 @@ channels:
               $ref: "#/components/schemas/dataQueue"
               description: "The data queue to be released"
     subscribe:
+      tags:
+        - name: "sink"
+        - name: "management"
+        - name: "reply"
       message:
         payload:
           type: object
           description: "Acknowledgement of successful release"
 
-  management/source.register:
+  source.register:
     publish:
+      tags:
+        - name: "source"
+        - name: "management"
+        - name: "request"
       message:
         name: "source.register"
         summary: "Register a source on the network"
@@ -240,6 +311,10 @@ channels:
               const: "source.register"
               $ref: "#/components/schemas/rpcFunctionName"
     subscribe:
+      tags:
+        - name: "source"
+        - name: "management"
+        - name: "reply"
       message:
         payload:
           type: object
@@ -251,8 +326,12 @@ channels:
             config:
               $ref: "#/components/schemas/configObject"
 
-  management/source.declare_metrics:
+  source.declare_metrics:
     publish:
+      tags:
+        - name: "source"
+        - name: "management"
+        - name: "request"
       message:
         name: "source.declare_metrics"
         summary: "Declare a list of metrics which this source provides"
@@ -268,12 +347,20 @@ channels:
           required:
             - "metrics"
     subscribe:
+      tags:
+        - name: "source"
+        - name: "management"
+        - name: "reply"
       message:
         payload:
           $ref: "#/components/schemas/declareMetricsResponse"
 
-  management/transformer.register:
+  transformer.register:
     publish:
+      tags:
+        - name: "transformer"
+        - name: "management"
+        - name: "request"
       message:
         name: "transformer.register"
         summary: "Register a transformer on the network"
@@ -284,6 +371,10 @@ channels:
               const: "transformer.register"
               $ref: "#/components/schemas/rpcFunctionName"
     subscribe:
+      tags:
+        - name: "transformer"
+        - name: "management"
+        - name: "reply"
       message:
         payload:
           type: object
@@ -293,8 +384,12 @@ channels:
             config:
               $ref: "#/components/schemas/configObject"
 
-  management/transformer.declare_metrics:
+  transformer.declare_metrics:
     publish:
+      tags:
+        - name: "transformer"
+        - name: "management"
+        - name: "request"
       message:
         name: "transformer.declare_metrics"
         summary: "Declare a list of metrics which this transformer provides"
@@ -310,12 +405,20 @@ channels:
           required:
             - "metrics"
     subscribe:
+      tags:
+        - name: "transformer"
+        - name: "management"
+        - name: "reply"
       message:
         payload:
           $ref: "#/components/schemas/declareMetricsResponse"
 
-  management/transformer.subscribe:
+  transformer.subscribe:
     publish:
+      tags:
+        - name: "transformer"
+        - name: "management"
+        - name: "request"
       message:
         name: "transformer.subscribe"
         title: "transformer.subscribe"
@@ -334,6 +437,10 @@ channels:
             - "function"
             - "metrics"
     subscribe:
+      tags:
+        - name: "transformer"
+        - name: "management"
+        - name: "reply"
       message:
         title: "transformer.subscribe"
         description: >-
@@ -341,8 +448,11 @@ channels:
         payload:
           $ref: "#/components/schemas/subscribeResponse"
 
-  broadcast/discover:
-    subscribe:
+  discover:
+    publish:
+      tags:
+        - name: "broadcast"
+        - name: "request"
       message:
         name: "discover"
         summary: "A discovery request sent to all clients online"
@@ -352,7 +462,10 @@ channels:
             function:
               const: "discover"
               $ref: "#/components/schemas/rpcFunctionName"
-    publish:
+    subscribe:
+      tags:
+        - name: "broadcast"
+        - name: "reply"
       message:
         name: "discover"
         summary: "A discovery response including operational information of a client"
@@ -394,8 +507,11 @@ channels:
                 - "bahka"
                 - "192.0.2.42"
 
-  broadcast/config:
-    subscribe:
+  config:
+    publish:
+      tags:
+        - name: "direct"
+        - name: "request"
       message:
         name: "config"
         summary: >-
