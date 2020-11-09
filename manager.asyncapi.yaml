@@ -179,7 +179,6 @@ channels:
         - name: "sink"
         - name: "management"
         - name: "request"
-      operationId: "sink.register"
       message:
         name: "sink.register"
         title: "Register a sink with the manager"
@@ -196,7 +195,6 @@ channels:
         - name: "sink"
         - name: "management"
         - name: "reply"
-      operationId: "sink.register"
       message:
         name: "sink.register"
         title: "Registration response"
