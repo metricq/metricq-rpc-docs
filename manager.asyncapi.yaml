@@ -523,6 +523,18 @@ channels:
               const: "config"
               $ref: "#/components/schemas/rpcFunctionName"
           additionalProperties: true
+    subscribe:
+      tags:
+        - name: "direct"
+        - name: "reply"
+      message:
+        name: "config"
+        summary: >-
+          Configuration acknowledgement
+        payload:
+          type: object
+          description: "Acknowledgement that configuration has been received successfully"
+
 
 
 components:
