@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "devDependencies": {
     "@asyncapi/generator": "^1.0.0-rc.15",
-    "@asyncapi/html-template": "^0.15.0"
+    "@asyncapi/html-template": "file:./template"
   },
   "repository": {
     "type": "git",
