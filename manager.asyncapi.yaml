@@ -25,8 +25,6 @@ tags:
   - name: "database"
     description: >-
       RPCs used by Database instances
-  - name: "request"
-  - name: "reply"
 
 info:
   title: MetricQ Management Protocol
@@ -73,7 +71,6 @@ channels:
     publish:
       tags:
         - name: "management"
-        - name: "request"
       message:
         name: "get_metrics"
         title: "get_metrics"
@@ -124,7 +121,6 @@ channels:
     subscribe:
       tags:
         - name: "management"
-        - name: "reply"
       message:
         name: "get_metrics"
         title: "A list of matching metrics, with optional metadata"
@@ -138,7 +134,6 @@ channels:
     publish:
       tags:
         - name: "management"
-        - name: "request"
       message:
         name: "get_configs"
         title: "Retrieve configuration objects for matching clients"
@@ -161,7 +156,6 @@ channels:
     subscribe:
       tags:
         - name: "management"
-        - name: "reply"
       message:
         name: "get_configs"
         title: "A mapping of client names to their configuration"
@@ -178,7 +172,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "request"
       message:
         name: "sink.register"
         title: "Register a sink with the manager"
@@ -194,7 +187,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "reply"
       message:
         name: "sink.register"
         title: "Registration response"
@@ -212,7 +204,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "request"
       message:
         name: "sink.subscribe"
         title: "sink.subscribe"
@@ -242,7 +233,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "reply"
       message:
         title: "sink.subscribe"
         payload:
@@ -253,7 +243,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "request"
       message:
         name: "sink.unsubscribe"
         title: "sink.unsubscribe"
@@ -280,7 +269,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "reply"
       message:
         title: >-
           `sink.unsubscribe` response
@@ -298,7 +286,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "request"
       message:
         name: "sink.release"
         title: "sink.release"
@@ -316,7 +303,6 @@ channels:
       tags:
         - name: "sink"
         - name: "management"
-        - name: "reply"
       message:
         payload:
           type: object
@@ -327,7 +313,6 @@ channels:
       tags:
         - name: "source"
         - name: "management"
-        - name: "request"
       message:
         name: "source.register"
         summary: "Register a source on the network"
@@ -341,7 +326,6 @@ channels:
       tags:
         - name: "source"
         - name: "management"
-        - name: "reply"
       message:
         payload:
           type: object
@@ -358,7 +342,6 @@ channels:
       tags:
         - name: "source"
         - name: "management"
-        - name: "request"
       message:
         name: "source.declare_metrics"
         summary: "Declare a list of metrics which this source provides"
@@ -377,7 +360,6 @@ channels:
       tags:
         - name: "source"
         - name: "management"
-        - name: "reply"
       message:
         payload:
           $ref: "#/components/schemas/declareMetricsResponse"
@@ -387,7 +369,6 @@ channels:
       tags:
         - name: "transformer"
         - name: "management"
-        - name: "request"
       message:
         name: "transformer.register"
         summary: "Register a transformer on the network"
@@ -401,7 +382,6 @@ channels:
       tags:
         - name: "transformer"
         - name: "management"
-        - name: "reply"
       message:
         payload:
           type: object
@@ -416,7 +396,6 @@ channels:
       tags:
         - name: "transformer"
         - name: "management"
-        - name: "request"
       message:
         name: "transformer.declare_metrics"
         summary: "Declare a list of metrics which this transformer provides"
@@ -435,7 +414,6 @@ channels:
       tags:
         - name: "transformer"
         - name: "management"
-        - name: "reply"
       message:
         payload:
           $ref: "#/components/schemas/declareMetricsResponse"
@@ -445,7 +423,6 @@ channels:
       tags:
         - name: "transformer"
         - name: "management"
-        - name: "request"
       message:
         name: "transformer.subscribe"
         title: "transformer.subscribe"
@@ -467,7 +444,6 @@ channels:
       tags:
         - name: "transformer"
         - name: "management"
-        - name: "reply"
       message:
         title: "transformer.subscribe"
         description: >-
@@ -479,7 +455,6 @@ channels:
     publish:
       tags:
         - name: "broadcast"
-        - name: "request"
       message:
         name: "discover"
         summary: "A discovery request sent to all clients online"
@@ -492,7 +467,6 @@ channels:
     subscribe:
       tags:
         - name: "broadcast"
-        - name: "reply"
       message:
         name: "discover"
         summary: "A discovery response including operational information of a client"
@@ -538,7 +512,6 @@ channels:
     publish:
       tags:
         - name: "direct"
-        - name: "request"
       message:
         name: "config"
         summary: >-
@@ -553,7 +526,6 @@ channels:
     subscribe:
       tags:
         - name: "direct"
-        - name: "reply"
       message:
         name: "config"
         summary: >-
