@@ -32,20 +32,12 @@ info:
   description: |
     Clients on the MetricQ network are managed via an RPC protocol, where
     messages are encoded in a JSON format.
-
     A request consists of a JSON object with a property `"function"`, identifying
     the action to perform.
-    Arguments are encoded as additional properties on the request object.
-
+    Arguments are passed by specifying properties on the request object.
     Replies are arbitrary JSON objects.
     If a request could not be processed successfully, the reply has a single
     property `"error"` containing an error message as a string.
-
-    See the examples for encoded request.
-
-    In the spec below, communication is presented from the perspective of a client making a request:
-    Requests are marked **`PUB`** (a client publishes a request to the management exchange),
-    replies are marked **`SUB`** (the client subscribes to replies on its RPC queue).
 
     RPCs are grouped into three categories and are tagged as such:
 
@@ -68,13 +60,13 @@ defaultContentType: application/json
 
 channels:
   get_metrics:
+    description: >-
+      Query the network for available metrics
     publish:
       tags:
         - name: "management"
       message:
-        name: "get_metrics"
-        title: "get_metrics"
-        summary: "Request information about available metrics"
+        description: "Request information about available metrics"
         bindings:
           amqp:
             replyTo:
@@ -123,7 +115,7 @@ channels:
         - name: "management"
       message:
         name: "get_metrics"
-        title: "A list of matching metrics, with optional metadata"
+        description: "A list of matching metrics, with optional metadata"
         payload:
           type: object
           properties:
@@ -131,12 +123,14 @@ channels:
                 $ref: "#/components/schemas/metricCollection"
 
   get_configs:
+    description: >-
+      Retrieve the configuration object for a set of clients
     publish:
       tags:
         - name: "management"
       message:
         name: "get_configs"
-        title: "Retrieve configuration objects for matching clients"
+        description: "Retrieve configuration objects for matching clients"
         payload:
           $ref: "#/components/schemas/rpcFunction"
           properties:
@@ -158,7 +152,7 @@ channels:
         - name: "management"
       message:
         name: "get_configs"
-        title: "A mapping of client names to their configuration"
+        description: "A mapping of client names to their configuration objects"
         payload:
           type: object
           additionalProperties:
@@ -168,13 +162,14 @@ channels:
                 rate: 0.5
 
   sink.register:
+    description: >-
+      Register a new sink on the network
     publish:
       tags:
         - name: "sink"
         - name: "management"
       message:
         name: "sink.register"
-        title: "Register a sink with the manager"
         payload:
           $ref: "#/components/schemas/rpcFunction"
           properties:
@@ -189,7 +184,9 @@ channels:
         - name: "management"
       message:
         name: "sink.register"
-        title: "Registration response"
+        description: >-
+          On success, this contains the information necessary to start consuming metrics from the network.
+          Optionally, a configuration object for this sink is returned.
         payload:
           type: object
           properties:
@@ -200,14 +197,14 @@ channels:
 
 
   sink.subscribe:
+    description: >-
+      Request to receive data points for a set of metrics.
     publish:
       tags:
         - name: "sink"
         - name: "management"
       message:
         name: "sink.subscribe"
-        title: "sink.subscribe"
-        description: "Subscribe to receive data points for a set of metrics"
         payload:
           $ref: "#/components/schemas/rpcFunction"
           properties:
@@ -216,10 +213,13 @@ channels:
               $ref: "#/components/schemas/rpcFunctionName"
             metrics:
               $ref: "#/components/schemas/metricList"
+              description: "A list of metrics to subscribe to."
             dataQueue:
               $ref: "#/components/schemas/dataQueue"
+              description: "The AMQP queue on which data points should arrive."
             expires:
               $ref: "#/components/schemas/seconds"
+              description: "The number of seconds after which this queue should expire if not connected to a sink."
             metadata:
               $ref: "#/components/schemas/metadataArgument"
           required:
@@ -234,7 +234,10 @@ channels:
         - name: "sink"
         - name: "management"
       message:
-        title: "sink.subscribe"
+        description: >-
+          After successful subscription, this contains the broker address and
+          queue on which data points for the requested metrics arrive.
+          The metrics in question are returned, optionally with their metadata attached.
         payload:
           $ref: "#/components/schemas/subscribeResponse"
 
@@ -245,7 +248,6 @@ channels:
         - name: "management"
       message:
         name: "sink.unsubscribe"
-        title: "sink.unsubscribe"
         description: "Subscribe to receive data points for a set of metrics"
         payload:
           title: "sink.unsubscribe"
@@ -270,8 +272,8 @@ channels:
         - name: "sink"
         - name: "management"
       message:
-        title: >-
-          `sink.unsubscribe` response
+        description: >-
+          An acknowledgement of unsubscription
         payload:
           type: object
           properties:
