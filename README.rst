@@ -18,7 +18,9 @@ Install the necessary dependencies (e.g. `AsyncAPI Generator <https://github.com
 
 Then, run::
 
-    $ path/to/ag --output docs manager.asyncapi.yaml @asyncapi/html-template
+    $ ag -p sidebarOrganization=byTags \
+        --output docs  \
+        manager.asyncapi.yaml ./template
 
 ...and find the generated HTML files in :literal:`docs/`.
 
