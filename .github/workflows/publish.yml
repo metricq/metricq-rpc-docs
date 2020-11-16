@@ -22,8 +22,7 @@ jobs:
           filepath: ${{ env.API_SPEC_PATH }}
 
       - name: Generating HTML from API specification
-        # Unpin once https://github.com/asyncapi/github-action-for-generator/pull/8 is merged.
-        uses: asyncapi/github-action-for-generator@bfacf38
+        uses: asyncapi/github-action-for-generator@v1
         with:
           template: './template'
           filepath: ${{ env.API_SPEC_PATH }}

@@ -3,7 +3,7 @@
   "author": "TU Dresden",
   "version": "1.0.0",
   "devDependencies": {
-    "@asyncapi/generator": "^1.0.0-rc.15",
+    "@asyncapi/generator": "^1.0.0",
     "@asyncapi/html-template": "file:./template"
   },
   "repository": {
