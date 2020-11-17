@@ -12,7 +12,11 @@ Documentation build from the :literal:`master` branch and deployed `here <https:
 Building it yourself
 --------------------
 
-Install the necessary dependencies (e.g. `AsyncAPI Generator <https://github.com/asyncapi/generator>`_, the `HTML template <https://github.com/asyncapi/html-template>`_)::
+Build using the dockerized version of the AsyncAPI Generator::
+
+    # ./docker-build.sh
+
+Or install the necessary dependencies (e.g. `AsyncAPI Generator <https://github.com/asyncapi/generator>`_, the `HTML template <https://github.com/asyncapi/html-template>`_)::
 
     $ npm install --only=dev
 
