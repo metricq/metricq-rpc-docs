@@ -25,6 +25,9 @@ tags:
   - name: "database"
     description: >-
       RPCs used by Database instances
+  - name: "history"
+    description: >-
+      RPCs used by history clients
 
 info:
   title: MetricQ Management Protocol
@@ -453,6 +456,137 @@ channels:
         payload:
           $ref: "#/components/schemas/subscribeResponse"
 
+  db.register:
+    description: >-
+      Register a database on the network.
+    publish:
+      tags:
+        - name: "database"
+        - name: "management"
+      message:
+        name: "db.register"
+        payload:
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "db.register"
+              $ref: "#/components/schemas/rpcFunctionName"
+    subscribe:
+      tags:
+        - name: "database"
+        - name: "management"
+      message:
+        payload:
+          type: object
+          properties:
+            dataServerAddress:
+              $ref: "#/components/schemas/dataServerAddress"
+            dataQueue:
+              $ref: "#/components/schemas/dataQueue"
+              description: "Metrics to be saved in the DB arrive on this queue"
+            historyQueue:
+              $ref: "#/components/schemas/historyQueue"
+            config:
+              $ref: "#/components/schemas/configObject"
+
+  db.subscribe:
+    description: >-
+      Request to receive data points for metrics to be saved in the DB.
+    publish:
+      tags:
+        - name: "database"
+        - name: "management"
+      message:
+        name: "db.subscribe"
+        payload:
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "db.subscribe"
+              $ref: "#/components/schemas/rpcFunctionName"
+            metrics:
+              description: >-
+                A list of metrics to save, possibly with custom names for history requests.
+              oneOf:
+                - type: array
+                  description: "A list of metrics to save in the DB"
+                  items:
+                    $ref: "#/components/schemas/metricName"
+                - type: array
+                  description: >-
+                    A list of metrics to save, with custom names for history requests.
+
+                    Queue bindings for the `dataQueue` will use `input`,
+                    while queue bindings for the `historyQueue` will use `name`.
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        $ref: "#/components/schemas/metricName"
+                      input:
+                        $ref: "#/components/schemas/metricName"
+                    required:
+                      - name
+                      - input
+            metadata:
+              $ref: "#/components/schemas/metadataArgument"
+          required:
+            - "function"
+            - "metrics"
+          examples:
+            - function: "db.subscribe"
+              metrics: ["building-F.room-A14.temperature.celcius"]
+              metadata: true
+            - function: "db.subscribe"
+              metrics:
+                - name: "history-name.foo-metric"
+                  input: "test.foo-metric"
+    subscribe:
+      tags:
+        - name: "database"
+        - name: "management"
+      message:
+        description: >-
+          After successful subscription, this contains the broker address and
+          queue on which data points for the requested metrics arrive.
+          The metrics in question are returned, optionally with their metadata attached.
+        payload:
+          $ref: "#/components/schemas/subscribeResponse"
+
+  history.register:
+    description: >-
+      Register a history client on the network.
+    publish:
+      tags:
+        - name: "history"
+        - name: "management"
+      message:
+        name: "history.register"
+        payload:
+          $ref: "#/components/schemas/rpcFunction"
+          properties:
+            function:
+              const: "history.register"
+              $ref: "#/components/schemas/rpcFunctionName"
+    subscribe:
+      tags:
+        - name: "history"
+        - name: "management"
+      message:
+        payload:
+          type: object
+          properties:
+            dataServerAddress:
+              $ref: "#/components/schemas/dataServerAddress"
+            historyExchange:
+              type: string
+              examples:
+                - "metricq.history"
+            historyQueue:
+              $ref: "#/components/schemas/historyQueue"
+            config:
+              $ref: "#/components/schemas/configObject"
+
   discover:
     publish:
       tags:
@@ -601,6 +735,14 @@ components:
       format: "uri"
       examples:
         - "amqp://user:pass@localhost/vhost"
+        - "amqps://metricq.example.com:50505/"
+
+    historyQueue:
+      type: string
+      format: "uri"
+      description: "Requests for historic data arrive on this queue"
+      examples:
+        - "amqp://user:pass@localhost/history"
         - "amqps://metricq.example.com:50505/"
 
     seconds:
