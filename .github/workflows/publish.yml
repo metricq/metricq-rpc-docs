@@ -37,7 +37,7 @@ jobs:
           name: docs
 
       - name: Deploy generated HTML to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@3.5.2
+        uses: JamesIves/github-pages-deploy-action@3.7.1
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         with:
           ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
