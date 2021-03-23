@@ -636,6 +636,12 @@ channels:
               examples:
                 - "metricq-python/1.1.4"
                 - "metricq-cpp/r501.ge944379"
+            pythonVersion:
+              type: string
+              description: >-
+                The version of the running Python interpreter, if the client uses the MetricQ Python bindings.
+              examples:
+                - "3.9.2"
             hostname:
               type: string
               description: >-
