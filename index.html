@@ -13317,6 +13317,71 @@ string
   <div class="">
     <div class=" flex property">
       <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
+        <span class="text-sm" style="word-break: break-word;">dataExchange</span>
+        
+        
+        
+      </div>
+
+      <div>
+        <div class="capitalize text-sm text-teal font-bold">
+          
+string
+          
+          
+          
+          <div class="inline-block">
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </div>
+        </div>
+
+        
+
+<div class="text-sm markdown"><p>Name of the exchange to which data points should be published</p>
+</div>
+
+
+
+        
+        
+        
+        
+          <div class="text-xs">
+            Examples:
+            
+              <span class="border text-orange rounded ml-1 py-0 px-2">"metricq.data"</span>
+            
+          </div>
+        
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+
+            
+          
+            
+            
+            
+              
+
+<div class="bg-grey-lightest pl-8 pr-8 rounded">
+  <div class="">
+    <div class=" flex property">
+      <div class="pr-4" style="margin-top:-2px; min-width: 25%;">
         <span class="text-sm" style="word-break: break-word;">dataQueue</span>
         
         
@@ -13603,6 +13668,7 @@ object
         
         <pre class="hljs mb-4 border border-grey-darkest rounded"><code>{
   "dataServerAddress": "amqp://user:pass@localhost/data-vhost",
+  "dataExchange": "metricq.data",
   "dataQueue": "amqp://user:pass@localhost/vhost",
   "historyQueue": "amqp://user:pass@localhost/history",
   "config": {
