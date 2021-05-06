@@ -481,6 +481,8 @@ channels:
           properties:
             dataServerAddress:
               $ref: "#/components/schemas/dataServerAddress"
+            dataExchange:
+              $ref: "#/components/schemas/dataExchange"
             dataQueue:
               $ref: "#/components/schemas/dataQueue"
               description: "Metrics to be saved in the DB arrive on this queue"
