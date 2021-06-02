@@ -222,7 +222,10 @@ channels:
               description: "The AMQP queue on which data points should arrive."
             expires:
               $ref: "#/components/schemas/seconds"
-              description: "The number of seconds after which this queue should expire if not connected to a sink."
+              description: >-
+                The number of seconds after which the data queue should expire if not connected to a sink.
+                If omitted, a default value is set.
+              exclusiveMinimum: 0
             metadata:
               $ref: "#/components/schemas/metadataArgument"
           required:
@@ -754,9 +757,8 @@ components:
         - "amqps://metricq.example.com:50505/"
 
     seconds:
-      type: integer
+      type: number
       format: seconds
-      minimum: 0
 
     metadata:
       description: "A metadata object"
