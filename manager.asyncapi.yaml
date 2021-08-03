@@ -98,6 +98,11 @@ channels:
                 If omitted, all matching metrics are returned.
               type: integer
               minimum: 0
+            hidden:
+              description: >-
+                If given, limit returned metrics to either hidden (`true`) or not hidden (`false`) metrics.
+                If omitted, this filter is not applied.
+              type: boolean
           oneOf:
             - properties:
                 selector:
